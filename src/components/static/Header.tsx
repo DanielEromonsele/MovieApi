@@ -1,62 +1,51 @@
+import { IoMenuSharp, IoSettings } from "react-icons/io5";
 import { FaSearch } from "react-icons/fa";
-import { IoMenuSharp } from "react-icons/io5";
 import { PiGraphLight } from "react-icons/pi";
-import { IoIosNotificationsOutline } from "react-icons/io";
-import { CiSettings } from "react-icons/ci";
+import { MdNotifications } from "react-icons/md";
 import { Icon } from "./HeaderIcon";
 import { useState } from "react";
 
-const Header = () => {
-  const [state, setState] = useState<boolean>(false);
-  const [numb, setNumb] = useState<number>(0);
-
+export const Header = () => {
+  const [first, setfirst] = useState(false);
   const onStateChange = () => {
-    setState(!state);
-
-    console.log(state);
-  };
-
-  const onNumbChange = () => {
-    setNumb(Math.floor(Math.random() * 10000));
-    console.log(numb);
+    setfirst(!first);
   };
 
   return (
-    <div className="h-[70px] w-full border-b flex items-center justify-center">
-      <div className="w-[95%] flex items-center justify-between">
+    <div className=" sticky top-0 z-20 bg-white h-[70px] w-full border-b flex items-center justify-center ">
+      <div className="w-[95%] flex items-center justify-between ">
         <div className="flex items-center ">
-          <div className="flex w-[200px] items-center justify-between mr-2">
+          <div className="flex w-[200px] items-center justify-between mr-2 ">
             <div className="text-[30px]">Logo</div>
             <Icon icon={<IoMenuSharp />} onClick={onStateChange} />
           </div>
           <div>
-            <div className="flex items-center border h-[45px] pl-2 rounded-md w-[500px] ">
-              <Icon icon={<FaSearch />} bg="d" />
+            <div className="flex items-center border h-[45px] px-2 w-[500px] rounded-md  ">
+              <Icon icon={<FaSearch />} bg="1" />
               <input
                 type="text"
                 placeholder="Search"
-                className="w-full h-[90%] outline-none"
+                className="outline-none w-full h-[90%] "
               />
               <Icon icon={<PiGraphLight />} />
             </div>
           </div>
         </div>
 
-        <div className="flex items-center ">
+        <div className="flex  items-center gap-5">
           <div>
-            <Icon icon={<IoIosNotificationsOutline />} onClick={onNumbChange} />
+            <Icon icon={<MdNotifications />} />
           </div>
-          <div
-            className="flex items-center justify-between w-[80px] p-1 rounded-full min-h-[40px] duration-300 transition-all
-             hover:bg-blue-500 bg-[lightgray] "
-          >
-            <img className="w-10 h-10 rounded-full border bg-green-500" />
-            <Icon icon={<CiSettings />} bg2="l" />
+          <div className="flex items-center px-2 cursor-pointer transition-all duration-300 justify-between rounded-full p-1 w-[100px] min-h-[40px] bg-blue-50 hover:bg-blue-500 group ">
+            <img
+              src=""
+              alt=""
+              className="w-10  h-10 rounded-full border bg-green-500 "
+            />
+            <Icon icon={<IoSettings />} bg2="1" />
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-export default Header;

@@ -1,36 +1,64 @@
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-import { navData } from "./SideNavData";
+
+import { useDispatch } from "react-redux";
+import { getDataByGenre, getGenre } from "../../api/API";
 import { SideNav } from "./SideNav";
-import { Nav } from "./DropDown";
+import { addGenres } from "../../Global/ReduxState";
 
-const SideBar = () => {
-  const [state, setState] = useState<boolean>(false);
-  const parent = useRef(null);
+import { navData} from "../static/SideNavData";
+
+export const SideBar = () => {
+  const [state, setState] = useState([{}]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getGenre().then((res: any) => {
+      console.log("fdfghjk",res);
+      
+      setState(res);
+
+      // dispatch(addGenres(res));
+      // getDataByGenre()
+    });
+  }, []);
 
   return (
-    <div ref={parent} className="w-[220px]  fixed h-screen flex justify-center">
-      <div className="bg-white w-[90%]">
-        <div className="border-b "></div>
-        <div className="border-b py-3 "></div>
-
-        {navData.map((props: any) => (
+    <div className="w-[220px] flex justify-center fixed h-[calc(100vh-70px)]  ">
+      <div className=" w-[90%] overflow-y-auto ">
+        {navData.map((el) => (
           <SideNav
-            icon={props.icon}
-            text={props.text}
-            onClick={props?.onClick}
-          />
+            content={el.content}
+            icon={el.icon}
+            // drop={el?.drop}
+            onClick={el?.onClick!} text={el.text}          />
         ))}
-        {state && (
-          <div>
-            <Nav text="Tabler" />
-            <Nav text="Tabler" />
-            <Nav text="Tabler" />
-          </div>
-        )}
+        {/* {state
+          .map((el: any) => <SideNav content="" Genre="1" text={el.name} />)
+          .slice(13)} */}
+
+        <SideNav
+          content="Genres"
+          Genre="1"
+          text={state
+            .map((el: any) => (
+              <div
+                onClick={() => {
+                  getDataByGenre(el.id).then((res: any) => {
+                    console.log(res);
+
+                    dispatch(addGenres(res));
+                  });
+                }}
+                className="mb-3 hover:bg-purple-200 transition-all duration-300 w-full py-2 px-4 rounded-md"
+              >
+                {el.name}
+              </div>
+            ))
+            .slice(12)}
+        />
       </div>
     </div>
   );
 };
-
-export default SideBar;
